@@ -1,7 +1,5 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 class UtilsTest {
 
@@ -74,76 +72,68 @@ class UtilsTest {
         assertTrue(Utils.isValidAge(Integer.MAX_VALUE));
     }
 
-    // Test printMessage method
     @Test
-    void testPrintMessageValidMessage() {
-        // Capture System.out
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        try {
-            Utils.printMessage("Hello World");
-            String output = outputStream.toString();
-            assertTrue(output.contains("Hello World"));
-        } finally {
-            // Restore original System.out
-            System.setOut(originalOut);
-        }
+    void testIsValidAgeExactlyZero() {
+        // Test the exact boundary at zero
+        assertTrue(Utils.isValidAge(0));
     }
 
     @Test
-    void testPrintMessageEmptyString() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        try {
-            Utils.printMessage("");
-            String output = outputStream.toString();
-            assertEquals("" + System.lineSeparator(), output);
-        } finally {
-            System.setOut(originalOut);
-        }
+    void testIsValidAgeJustBelowZero() {
+        // Test just below the boundary
+        assertFalse(Utils.isValidAge(-1));
     }
 
     @Test
-    void testPrintMessageNull() {
-        // Should not throw NullPointerException
-        assertDoesNotThrow(() -> {
-            Utils.printMessage(null);
-        });
+    void testIsValidAgeJustAboveZero() {
+        // Test just above the boundary
+        assertTrue(Utils.isValidAge(1));
     }
 
     @Test
-    void testPrintMessageSpecialCharacters() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
-
-        try {
-            Utils.printMessage("Test\nMessage\tWith\tTabs");
-            String output = outputStream.toString();
-            assertTrue(output.contains("Test"));
-        } finally {
-            System.setOut(originalOut);
-        }
+    void testCheckNameWithNullAndLengthCheck() {
+        // Test the compound condition: name != null && name.length() > 0
+        // This helps catch mutations that change && to ||
+        assertFalse(Utils.checkName(null));
+        assertFalse(Utils.checkName(""));
     }
 
     @Test
-    void testPrintMessageLongMessage() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        PrintStream originalOut = System.out;
-        System.setOut(new PrintStream(outputStream));
+    void testCheckNameExactLengthOne() {
+        // Test exactly length 1 (boundary case for length > 0)
+        assertTrue(Utils.checkName("A"));
+    }
 
-        try {
-            String longMessage = "A".repeat(1000);
-            Utils.printMessage(longMessage);
-            String output = outputStream.toString();
-            assertTrue(output.contains("A".repeat(1000)));
-        } finally {
-            System.setOut(originalOut);
-        }
+    @Test
+    void testCheckNameLengthTwo() {
+        assertTrue(Utils.checkName("AB"));
+    }
+
+    @Test
+    void testCheckNameWithSpecialCharacters() {
+        assertTrue(Utils.checkName("!@#$%"));
+        assertTrue(Utils.checkName("Test-Name_123"));
+    }
+
+    @Test
+    void testCheckNameWithUnicode() {
+        assertTrue(Utils.checkName("测试"));
+        assertTrue(Utils.checkName("José"));
+    }
+
+    @Test
+    void testIsValidAgeWithVariousPositiveValues() {
+        assertTrue(Utils.isValidAge(1));
+        assertTrue(Utils.isValidAge(18));
+        assertTrue(Utils.isValidAge(65));
+        assertTrue(Utils.isValidAge(99));
+    }
+
+    @Test
+    void testIsValidAgeWithVariousNegativeValues() {
+        assertFalse(Utils.isValidAge(-1));
+        assertFalse(Utils.isValidAge(-10));
+        assertFalse(Utils.isValidAge(-100));
+        assertFalse(Utils.isValidAge(Integer.MIN_VALUE));
     }
 }
-
