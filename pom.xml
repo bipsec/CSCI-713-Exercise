@@ -40,7 +40,50 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.1.2</version>
             </plugin>
+            
+            <!-- PIT Mutation Testing -->
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.15.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>1.2.0</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <targetClasses>
+                        <param>StudentService</param>
+                        <param>Utils</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>StudentServiceTest</param>
+                        <param>UtilsTest</param>
+                    </targetTests>
+                    <outputFormats>
+                        <outputFormat>HTML</outputFormat>
+                        <outputFormat>XML</outputFormat>
+                    </outputFormats>
+                    <mutators>
+                        <mutator>ALL</mutator>
+                    </mutators>
+                    <exportLineCoverage>true</exportLineCoverage>
+                    <lineCoverage>true</lineCoverage>
+                    <mutationThreshold>80</mutationThreshold>
+                    <coverageThreshold>80</coverageThreshold>
+                    <mutationUnitSize>1</mutationUnitSize>
+                    <verbose>true</verbose>
+                    <detectInlinedCode>true</detectInlinedCode>
+                    <timestampedReports>false</timestampedReports>
+                    <useClasspathFile>true</useClasspathFile>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+
+    
+
 
 </project>
