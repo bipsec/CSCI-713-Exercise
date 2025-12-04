@@ -17,6 +17,11 @@ public class Main {
         // Code smell: Repeated calls, magic numbers
         System.out.println("Average GPA: " + service.calculateAverageGpa());
 
+        // Using removeStudentByName method
+        System.out.println("\nRemoving student 'Bob'...");
+        service.removeStudentByName("Bob");
+        System.out.println("Average GPA after removal: " + service.calculateAverageGpa());
+
         // Dead code / unused
         int x = 42;
         if (x > 100) {
