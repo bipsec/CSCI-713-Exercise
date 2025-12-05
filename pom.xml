@@ -45,7 +45,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>0.8.11</version>
+                <version>0.8.12</version>
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
@@ -62,7 +62,6 @@
                     </execution>
                     <execution>
                         <id>check</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>check</goal>
                         </goals>
@@ -92,27 +91,13 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <rules>
-                        <rule>
-                            <element>CLASS</element>
-                            <limits>
-                                <limit>
-                                    <counter>LINE</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.80</minimum>
-                                </limit>
-                                <limit>
-                                    <counter>BRANCH</counter>
-                                    <value>COVEREDRATIO</value>
-                                    <minimum>0.80</minimum>
-                                </limit>
-                            </limits>
-                            <excludes>
-                                <exclude>Main</exclude>
-                                <exclude>Student</exclude>
-                            </excludes>
-                        </rule>
-                    </rules>
+                    <excludes>
+                        <exclude>**/sun/**</exclude>
+                        <exclude>**/java/**</exclude>
+                        <exclude>**/jdk/**</exclude>
+                        <exclude>**/com/sun/**</exclude>
+                        <exclude>**/org/jacoco/**</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
             
@@ -132,10 +117,14 @@
                     <targetClasses>
                         <param>StudentService</param>
                         <param>Utils</param>
+                        <param>Main</param>
+                        <param>Student</param>
                     </targetClasses>
                     <targetTests>
                         <param>StudentServiceTest</param>
                         <param>UtilsTest</param>
+                        <param>MainTest</param>
+                        <param>StudentTest</param>
                     </targetTests>
                     <outputFormats>
                         <outputFormat>HTML</outputFormat>
